@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import javax.mail.Message;
@@ -34,20 +35,19 @@ public class Mail {
     }
 
     private MimeMessage draftEmail() throws AddressException, MessagingException, IOException {
-        String[] emailReceipients = {"abc@gmail.com","xyz@gmail.com"};
+        String emailReceipient = "abc@gmail.com";
         String emailSubject = "Test Mail";
         String emailBody = "Test Body of my email";
         mimeMessage = new MimeMessage(newSession);
 
-        for (int i =0 ;i<emailReceipients.length;i++)
-        {
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailReceipients[i]));
-        }
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailReceipient));
         mimeMessage.setSubject(emailSubject);
 
 
         MimeBodyPart bodyPart = new MimeBodyPart();
         bodyPart.setContent(emailBody,"text/html");
+        MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+        attachmentBodyPart.attachFile(new File("C:\\Users\\attanaya-se18006\\Desktop\\shopping.xlsx"));
         MimeMultipart multiPart = new MimeMultipart();
         multiPart.addBodyPart(bodyPart);
         mimeMessage.setContent(multiPart);
